@@ -4,7 +4,7 @@ string password=String.Empty;
 bool isValid = false;
 while (password.Length<8 || !isValid)
 {
-    Console.WriteLine("Podaj hasło. Minimum 8 znaków, jedna wielka litera i jedna cyfra");
+    Console.WriteLine("Podaj hasło. Minimum 8 znaków, jedna wielka litera, jedna cyfra oraz znak specjalny");
     password = Console.ReadLine();
     isValid = CheckPass(password);
 }
@@ -26,7 +26,7 @@ static string MakePassword(string password,int number)
     {
         signsArray[i] = password[i];
         numbersArray[i] = (int)signsArray[i];
-        signsArray[i] = (char)(numbersArray[i] + number);
+        signsArray[i] = (char)(numbersArray[i] + (2*number));
     }
 
     return new string(signsArray);
@@ -36,11 +36,14 @@ static bool CheckPass(string password)
 {
     bool firstTerm = false;
     bool secondTerm = false;
+    bool thirdTerm = false;
     foreach (char sign in password)
     {
         if (Char.IsDigit(sign)) firstTerm = true;
         if (Char.IsUpper(sign)) secondTerm = true;
+        if (Char.IsSymbol(sign) || Char.IsPunctuation(sign)) thirdTerm = true;
+        
     }
 
-    return firstTerm && secondTerm;
+    return firstTerm && secondTerm && thirdTerm;
 }
